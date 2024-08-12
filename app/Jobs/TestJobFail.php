@@ -36,14 +36,13 @@ class TestJobFail implements ShouldQueue
      */
     public function handle(): void
     {
-        sleep(10);
-
-        echo "done";
+        sleep(5);
+        throw new Exception('Job failed');
     }
 
     // public $backoff = 10;
 
-    public $tries = 2;
+    public $tries = 3;
 
     /**
      * Determine the time at which the job should timeout.  jab b worker usy pkry ga tb s agy given time tk yeh retry hogi usky bad marked as fial hogi
@@ -63,11 +62,10 @@ class TestJobFail implements ShouldQueue
 
 
 
-    public function middleware(): array
-    {
-        return [new \App\Http\Middleware\RateLimited];
-
-    }
+    // public function middleware(): array
+    // {
+    //     return [new \App\Http\Middleware\RateLimited];
+    // }
 
 
     public function failed()
