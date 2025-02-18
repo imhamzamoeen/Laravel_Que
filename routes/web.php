@@ -1,5 +1,6 @@
 <?php
 
+use App\Classes\TestStaticClass;
 use App\Jobs\TestJob;
 use App\Jobs\TestJobFail;
 use App\Jobs\testStaticJob;
@@ -21,17 +22,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/testing-worker-instance',function(){
+Route::get(
+    '/testing-worker-instance',
+    function () {
 
 
 
-// the thing is that each worker is a seperate os process , that gets an instance of the app and runs the jobs.
-// so theroratically it shuld have shared static things like each instance has for once .. mltb after app is bootstrapped. after the service providers . and other things like classes on calls run then after thier constructs etc
+        // the thing is that each worker is a seperate os process , that gets an instance of the app and runs the jobs.
+        // so theroratically it shuld have shared static things like each instance has for once .. mltb after app is bootstrapped. after the service providers . and other things like classes on calls run then after thier constructs etc
 
-testStaticJob::dispatch();
+        testStaticJob::dispatch(new TestStaticClass());
 
-// this queu uses a class that has a static variable tu hta ki h har worker k pas uska ek instance ban jata mtlb har worker k pas seperate static class rhi. and us instance ki har job k pas woh shared hoga
-}
+        // this queu uses a class that has a static variable tu hta ki h har worker k pas uska ek instance ban jata mtlb har worker k pas seperate static class rhi. and us instance ki har job k pas woh shared hoga
+    }
 );
 
 

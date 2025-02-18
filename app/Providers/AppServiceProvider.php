@@ -2,13 +2,16 @@
 
 namespace App\Providers;
 
+use App\Classes\TestStaticClass;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Console\Application;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +29,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        App::singleton(TestStaticClass::class, concrete: function ($app) {
+            return new TestStaticClass();
+        });
+
+
         RateLimiter::for('jobMiddleware', function (object $job) {
             return $job->user->id == 1 ? Limit::none() : Limit::perMinute(1)->by($job->user->id);
         });
