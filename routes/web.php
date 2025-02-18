@@ -1,10 +1,10 @@
 <?php
 
 use App\Classes\TestStaticClass;
+use App\Http\Controllers\JobController;
 use App\Jobs\TestJob;
 use App\Jobs\TestJobFail;
 use App\Jobs\testStaticJob;
-use App\Jobs\UniqueJob;
 use App\Models\User;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
@@ -37,7 +37,7 @@ Route::get(
     }
 );
 
-
+Route::get(uri: 'testJobBatchControllerMethod',  action: [JobController::class, 'batchtransactiontest']);
 Route::get('/', function () {
 
     // try {
